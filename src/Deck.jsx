@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import ButtonDesc from "./ButtonDesc";
 
 class Deck extends Component {
     constructor(props) {
@@ -13,9 +14,11 @@ class Deck extends Component {
                 <div className="deck" onClick={() => {
                     this.props.onShowCards(this.state.item)
                 }}>
+                    <p className="amount">{this.state.item?.objects.length}</p>
                     <h2>{this.state.item.name}</h2>
-                    <h4>{this.state.item.type || ""}</h4>
-                    <h4>{this.state.item.objects ? (this.state.item.objects.length + ` object()s inside`) : ""}</h4>
+                    <ButtonDesc
+                        item={this.state.item}
+                    />
                 </div>
             </div>
         );

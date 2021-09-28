@@ -3,8 +3,8 @@ import ReactDOM from 'react-dom';
 import App from './App.jsx';
 
 ReactDOM.render(
-  <div className="container_body">
+  <React.Fragment>
       <App />
-  </div>,
+  </React.Fragment>,
   document.getElementById('root')
 );

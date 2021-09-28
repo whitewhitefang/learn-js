@@ -19,9 +19,8 @@ class Card extends Component {
         return (
             <div className="card" onClick={this.showDesc}>
                 <h2>{this.state.card.name}</h2>
-                <h4>{this.state.card.type || ""}</h4>
                 <div className="desc">
-                    <p>{this.state.showedDesc ? this.state.card.description : ""}</p>
+                    {this.state.showedDesc ? this.state.card.description : ""}
                 </div>
             </div>
         )
