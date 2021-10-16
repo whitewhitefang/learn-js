@@ -11,11 +11,38 @@ class Deck extends Component {
     render() {
         return (
             <div>
-                <div className="deck" onClick={() => {
-                    this.props.onShowCards(this.state.item)
+                <div
+                    className="deck"
+                    style={this.state.item.objects.length > 0 ? {background: "linear-gradient(45deg," +
+                            " white 85%, orange 85%)"} : {background: "linear-gradient(45deg, white 85%, #FFDE9F 85%)"}}
+                    onClick={() => {
+                    this.props.onShowCards(this.state.item);
                 }}>
-                    <p className="amount">{this.state.item?.objects.length}</p>
+                    <p className="amount">
+                        {this.props.item.objects.length || ""}
+                    </p>
                     <h2>{this.state.item.name}</h2>
+                    {this.props.editMode ?
+                        <div className="editButtonsSection">
+                            <button
+                                className="editButton allTheButtons"
+                                onClick={event => {
+                                event.stopPropagation();
+                                this.props.editedCard(this.state.item);
+                            }}
+                            >
+                                edit
+                            </button>
+                            <button
+                                className="deleteButton allTheButtons"
+                                onClick={event => {
+                                    event.stopPropagation();
+                                    this.props.deleteIt(this.state.item)}}
+                            >
+                                delete
+                            </button>
+                        </div>
+                    : ""}
                     <ButtonDesc
                         item={this.state.item}
                     />

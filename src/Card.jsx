@@ -19,6 +19,27 @@ class Card extends Component {
         return (
             <div className="card" onClick={this.showDesc}>
                 <h2>{this.state.card.name}</h2>
+                {this.props.editMode ?
+                    <div className="editButtonsSection">
+                        <button
+                            className="editButton allTheButtons"
+                            onClick={event => {
+                                event.stopPropagation();
+                                this.props.editedCard(this.state.card);
+                            }}
+                        >
+                            edit
+                        </button>
+                        <button
+                            className="deleteButton allTheButtons"
+                            onClick={event => {
+                                event.stopPropagation();
+                                this.props.deleteIt(this.state.card)}}
+                        >
+                            delete
+                        </button>
+                    </div>
+                    : ""}
                 <div className="desc">
                     {this.state.showedDesc ? this.state.card.description : ""}
                 </div>

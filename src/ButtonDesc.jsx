@@ -21,8 +21,7 @@ class ButtonDesc extends Component {
         if (this.state.item.description) {
             return (
                 <div>
-                    <h4>{this.state.item.type || ""}</h4>
-                    <button className="buttonDesc" onClick={event => {
+                    <button className="buttonDesc allTheButtons" onClick={event => {
                         event.stopPropagation();
                         this.showDesc();
                     }}

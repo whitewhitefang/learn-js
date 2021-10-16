@@ -1,25 +1,30 @@
 .container {
     width: 100%;
     margin: 0 auto;
+    display: flex;
+    justify-content: center;
 }
 .header {
-    width: 80%;
-    height: 60px;
+    position: fixed;
+    width: 100%;
+    height: 40px;
     background-color: white;
-    font: 30px "Rockwell Extra Bold";
+    font: 1.8rem "Rockwell Extra Bold";
     font-weight: bold;
-    padding: 15px 0 0 0;
-    margin: 10px auto 0 auto;
-    border-bottom: 1px solid darkgray;
+    margin: -10px auto 0 auto;
+    padding: 0;
 }
-
 .header>ul {
     list-style: none;
-    margin: 0 100px 20px 25px;
+    margin: 0 100px 10px 25px;
     display: flex;
     flex-flow: row;
-    justify-content: space-between;
 }
+.header>ul>li {
+    width: 30%;
+    text-align: center;
+}
+
 a {
     padding: 15px 25px;
     text-decoration: none;
@@ -40,26 +45,35 @@ a:hover {
 a:active {
     color: black;
 }
+.recycle>a {
+    display: inline;
+}
+.recycleBin {
+    width: 13%;
+}
+
+.mainContentDiv {
+    width: 100%;
+    padding-top: 50px;
+}
 .decks, .cards {
-    width: 80%;
-    margin: 10px auto 25px auto;
-    padding-top: 20px;
+    width: 90%;
+    margin: 5px auto 25px auto;
     display: flex;
     justify-content: space-between;
     flex-flow: row;
     flex-wrap: wrap;
 }
 .deck {
-    width: 170px;
-    height: 220px;
+    width: 180px;
+    height: 240px;
     border: 1px solid black;
     border-radius: 5px;
     margin-top: 10px;
     padding: 10px;
     text-align: center;
-    overflow: auto;
-}
-.deck {
+    overflow-x: hidden;
+    overflow-y: auto;
     background: linear-gradient(45deg, white 85%, orange 85%);
 }
 .deck>h2 {
@@ -73,17 +87,19 @@ a:active {
     margin-top: 10px;
     padding: 10px;
     text-align: center;
-    overflow: auto;
+    overflow-x: hidden;
+    overflow-y: auto;
 }
 .card>h2 {
     font-size: 1.2rem;
+    word-wrap: break-word;
 }
 .deck:hover, .card:hover {
     color: red;
 }
 .desc {
     text-align: left;
-    color: black !important;
+    color: black;
 }
 .amount {
     font-weight: bold;
@@ -91,14 +107,33 @@ a:active {
     padding-top: 0;
     margin-top: 0;
 }
-.buttonDesc {
+.allTheButtons {
     background-color: white;
     border-radius: 5px;
-    margin-top: 35%;
 }
-.buttonDesc:hover {
+.allTheButtons:hover {
     box-shadow: 1.5px 1.5px 1px .5px darkgray;
     text-shadow: .2px .2px .1px darkgray;
+}
+.buttonDesc {
+    margin-top: 50%;
+}
+.textDesc {
+    color: black;
+    text-align: left;
+    word-wrap: break-word;
+}
+.editButton {
+    width: 50%;
+    background-color: blue;
+    font-size: 1.1rem;
+    font-weight: bold;
+}
+.deleteButton {
+    width: 50%;
+    background-color: red;
+    font-size: 1.1rem;
+    font-weight: bold;
 }
 .modal-layer {
     position: fixed;
@@ -115,15 +150,14 @@ a:active {
     margin: 30px auto;
     z-index: 1001;
     background-color: white;
-    width: 30%;
-    height: 80%;
+    width: 480px;
+    height: 570px;
     border: 1px solid black;
     border-radius: 7px;
     overflow: auto;
 }
 .modalCard>h2 {
     text-align: center;
-    word-wrap: break-word;
 }
 .modalCard>.desc {
     padding: 0 20px;
@@ -146,14 +180,79 @@ a:active {
     background-color: white;
     border-radius: 5px;
 }
-.nextModal:hover, .prevModal:hover {
-    box-shadow: 1.5px 1.5px 1px .5px darkgray;
-    text-shadow: .2px .2px .1px darkgray;
-}
 .closeSign {
     float: right;
     padding-right: 5px;
 }
 .closeSign:hover {
     cursor: pointer;
+}
+
+.modalForm {
+    margin: 30px auto;
+    z-index: 1001;
+    background-color: white;
+    width: 50%;
+    height: auto;
+    border: 1px solid black;
+    border-radius: 5px;
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+.modalFormBody {
+    margin: 35px 30px 0 30px;
+}
+.newCardButtons {
+    margin-top: 50px;
+    margin-bottom: 40px;
+    display: flex;
+    justify-content: flex-end;
+}
+.addCardButton {
+    margin-right: 36px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: orange;
+}
+.addCardButton:hover {
+    background-color: orange;
+    color: black;
+    cursor: pointer;
+}
+.cancelAddCardButton {
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+.newCardBodyPart, .cardBodyPart {
+    margin-top: 40px;
+    display: flex;
+    justify-content: flex-end;
+}
+.newCardBodyPart>input, .newCardBodyPart>select, .cardBodyPart>input, .cardBodyPart>select {
+    font-size: 1.2rem;
+    margin-left: 20px;
+    border-radius: 5px;
+    flex: 2;
+}
+#newCardDescription, #cardDescription, #cards-inside {
+    font-size: 1.2rem;
+    margin-left: 20px;
+    border-radius: 5px;
+    flex: 2;
+    height: auto;
+    resize: none;
+}
+.deck-or-card {
+    display: flex;
+    justify-content: space-evenly;
+}
+.newCardBodyPart>label, .cardBodyPart>label {
+    flex: 1;
+}
+.warningMess {
+    font-size: 1rem;
+    width: auto;
+    padding-top: 15px;
+    margin: 3px 25px;
+    color: red;
 }
