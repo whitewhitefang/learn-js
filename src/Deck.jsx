@@ -16,8 +16,8 @@ class Deck extends Component {
                     style={this.state.item.objects.length > 0 ? {background: "linear-gradient(45deg," +
                             " white 85%, orange 85%)"} : {background: "linear-gradient(45deg, white 85%, #FFDE9F 85%)"}}
                     onClick={() => {
-                    this.props.onShowCards(this.state.item);
-                }}>
+                        this.props.onShowCards(this.state.item);
+                    }}>
                     <p className="amount">
                         {this.props.item.objects.length || ""}
                     </p>

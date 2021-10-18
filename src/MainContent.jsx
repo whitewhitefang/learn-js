@@ -13,7 +13,7 @@ class MainContent extends Component {
             cards: [],
             deck: [],
             openedDeck: false,
-            editedCard: 0
+            editedCard: {}
         };
     }
     componentDidMount() {
@@ -54,7 +54,7 @@ class MainContent extends Component {
     };
     editedCard = item => {
         this.props.modalToEditCard();
-        this.setState({editedCard: item.id});
+        this.setState({editedCard: item});
     };
     deleteCard = async(item) => {
         let url = `http://localhost:5000/js/`;
@@ -101,6 +101,15 @@ class MainContent extends Component {
             this.deleteCard(item);
         }
     };
+    findAndScroll = () => {
+        let coords = window.document.querySelector(".cards");
+        coords.scrollIntoView({block: "start", inline: "nearest", behavior: "smooth"});
+    };
+    componentDidUpdate() {
+        if (this.state.openedDeck) {
+            this.findAndScroll();
+        }
+    }
     render() {
         return (
             <div className="mainContentDiv">
@@ -120,6 +129,7 @@ class MainContent extends Component {
                     cards={this.state.cards}
                     editedCard={this.state.editedCard}
                     modalToEditCard={this.props.modalToEditCard}
+                    deleteCard={this.deleteCard}
                 /> : ""}
                 <div className="decks">
                     {this.state.decks.map(item => {
@@ -132,6 +142,7 @@ class MainContent extends Component {
                                 editedCard={this.editedCard}
                                 modalToEditCard={this.props.modalToEditCard}
                                 deleteIt={this.deleteIt}
+                                openedDeck={this.state.openedDeck}
                             />
                             )
                     })}

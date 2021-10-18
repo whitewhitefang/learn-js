@@ -6,7 +6,7 @@ class editExistingCard extends Component {
         this.state = {
             decks: this.props.decks,
             cards: this.props.cards,
-            editedCardId: this.props.editedCard,
+            editedCard: this.props.editedCard,
             cardName: "",
             classDeck: "",
             deckName: "",
@@ -27,20 +27,27 @@ class editExistingCard extends Component {
         };
     }
     componentDidMount() {
-        this.unpackCard(this.state.editedCardId);
+        this.unpackCard(this.state.editedCard);
     }
-    unpackCard = cardId => {
-        const card = this.state.decks.filter(item => item.id === cardId)[0] || this.state.cards.filter(item => item.id === cardId)[0];
-        this.setState({
-            cardName: card.name,
-            classDeck: card.classDeck,
-            deckName: card.deck,
-            cardDeck: card.deck,
-            initialDeck: card.deck,
-            cardType: card.type,
-            cardDescription: card.description,
-            objects: card.objects
-        })
+    unpackCard = card => {
+        if (card.classDeck === "deck") {
+            this.setState({
+                cardName: card.name,
+                classDeck: card.classDeck,
+                deckName: card.deck,
+                cardType: card.type,
+                cardDescription: card.description,
+                objects: card.objects
+            })
+        } else {
+            this.setState({
+                cardName: card.name,
+                classDeck: card.classDeck,
+                cardDeck: card.deck,
+                cardType: card.type,
+                cardDescription: card.description
+            })
+        }
     };
     validate = controls => {
         let errors = {};
@@ -96,20 +103,6 @@ class editExistingCard extends Component {
         this.props.modalToEditCard();
     };
     saveDeck = async(deck) => {
-        await fetch("http://localhost:5000/js", {
-            method: "POST",
-            body: JSON.stringify(deck),
-            headers: {
-                "Content-type": "application/json"
-            }
-        });
-        this.toCloseModalEditForm();
-        this.props.getAndUnpack();
-    };
-    saveCard = async(card) => {
-        let deckArrFiltered = this.state.decks.filter(item => item.name === this.state.cardDeck);
-        let deck = deckArrFiltered[0];
-        deck.objects.push(card);
         await fetch(`http://localhost:5000/js/${deck.id}`, {
             method: "PUT",
             body: JSON.stringify(deck),
@@ -117,6 +110,46 @@ class editExistingCard extends Component {
                 "Content-type": "application/json"
             }
         });
+        this.props.getAndUnpack();
+        this.toCloseModalEditForm();
+    };
+    saveCard = async(card) => {
+        let deck = this.state.decks.filter(item => item.name === this.state.editedCard.deck)[0];
+        if (card.deck === this.state.editedCard.deck) {
+            let arr = Array.from(deck.objects);
+            let index = 0;
+            for (const item of arr) {
+                if (item.id === this.props.editedCard.id) {
+                    index = arr.indexOf(item);
+                }
+            }
+            card.id = this.props.editedCard.id;
+            deck.objects = arr.splice(index, 1, card);
+            await fetch(`http://localhost:5000/js/${deck.id}`, {
+                method: "PUT",
+                body: JSON.stringify(deck),
+                headers: {
+                    "Content-type": "application/json"
+                }
+            });
+            this.setState({editedCard: {}});
+        } else {
+            let newDeck = this.state.decks.filter(item => item.name === this.state.cardDeck)[0];
+            if (newDeck.objects.length === 0) {
+                card.id = Number.parseInt(newDeck.id) + 0.1;
+            } else {
+                card.id = Number((Number.parseFloat(newDeck.objects[newDeck.objects.length - 1].id) + 0.01).toPrecision(4));
+            }
+            newDeck.objects.push(card);
+            await fetch(`http://localhost:5000/js/${newDeck.id}`, {
+                method: "PUT",
+                body: JSON.stringify(newDeck),
+                headers: {
+                    "Content-type": "application/json"
+                }
+            });
+            this.props.deleteCard(this.state.editedCard);
+        }
         this.toCloseModalEditForm();
         this.props.getAndUnpack();
     };
@@ -128,11 +161,16 @@ class editExistingCard extends Component {
                 const newDeck = {
                     name: this.state.cardName,
                     classDeck: this.state.editedCard.classDeck,
-                    deck: this.state.deckName,
-                    type: this.state.cardType,
+                    deck: this.state.cardName,
+                    type: this.state.cardName,
                     description: this.state.cardDescription,
-                    objects: this.state.editedCard.objects
+                    id: this.state.editedCard.id
                 };
+                const arrOfCards = Array.from(this.state.editedCard.objects);
+                for (const obj of arrOfCards) {
+                    obj.deck = newDeck.name;
+                }
+                newDeck.objects = arrOfCards;
                 this.saveDeck(newDeck);
             }
         } else if (this.state.editedCard.classDeck === "card") {
@@ -176,7 +214,7 @@ class editExistingCard extends Component {
                                         id="chooseDeck"
                                         value="deck"
                                         checked={this.state.classDeck === "deck"}
-                                        disabled="disabled"
+                                        disabled={true}
                                     />
                                 </div>
                                 <div>
@@ -187,7 +225,7 @@ class editExistingCard extends Component {
                                         id="chooseCard"
                                         value="card"
                                         checked={this.state.classDeck === "card"}
-                                        disabled="disabled"
+                                        disabled={true}
                                     />
                                 </div>
                             </div>
@@ -216,13 +254,13 @@ class editExistingCard extends Component {
                                         }}
                                     />
                                 </div>
-                                {this.state.classDeck === "card" ? <div className="cardBodyPart">
+                                {this.state.classDeck === "card" ?
+                                    <div className="cardBodyPart">
                                         <label htmlFor="putToDeck">which deck to put this card</label>
                                         <select
                                             name="cardDeck"
                                             id="putToDeck"
                                             value={this.state.cardDeck}
-                                            onSelect={this.state.initialDeck}
                                             onChange={event => {
                                                 this.setState({cardDeck: event.target.value});
                                             }}
@@ -239,8 +277,11 @@ class editExistingCard extends Component {
                                             type="text"
                                             name="deckName"
                                             id="createDeck"
-                                            value={this.state.cardDeck}
-                                            disabled="disabled"
+                                            value={this.state.cardName}
+                                            onChange={event => {
+                                                this.setState({deckName: event.target.value});
+                                            }}
+                                            disabled={true}
                                         />
                                     </div>
                                 }
@@ -251,8 +292,11 @@ class editExistingCard extends Component {
                                             type="text"
                                             name="cardType"
                                             id="cardType"
-                                            value={this.state.cardType}
-                                            disabled="disabled"
+                                            value={this.state.cardName}
+                                            onChange={event => {
+                                                this.setState({cardType: event.target.value});
+                                            }}
+                                            disabled={true}
                                         />
                                     </div>
                                     :

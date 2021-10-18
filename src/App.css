@@ -49,7 +49,8 @@ a:active {
     display: inline;
 }
 .recycleBin {
-    width: 13%;
+    width: 10%;
+    margin-top: 5px;
 }
 
 .mainContentDiv {
@@ -63,6 +64,9 @@ a:active {
     justify-content: space-between;
     flex-flow: row;
     flex-wrap: wrap;
+}
+.cards {
+    padding-top: 35px;
 }
 .deck {
     width: 180px;
