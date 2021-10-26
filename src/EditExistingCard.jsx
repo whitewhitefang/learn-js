@@ -6,12 +6,13 @@ class editExistingCard extends Component {
         this.state = {
             decks: this.props.decks,
             cards: this.props.cards,
-            editedCard: this.props.editedCard,
+            initialDeck: "",
+            initialId: 0,
+            initialName: "",
             cardName: "",
             classDeck: "",
             deckName: "",
             cardDeck: "",
-            initialDeck: "",
             cardType: "",
             cardDescription: "",
             objects: [],
@@ -27,7 +28,7 @@ class editExistingCard extends Component {
         };
     }
     componentDidMount() {
-        this.unpackCard(this.state.editedCard);
+        this.unpackCard(this.props.editedCard);
     }
     unpackCard = card => {
         if (card.classDeck === "deck") {
@@ -35,6 +36,9 @@ class editExistingCard extends Component {
                 cardName: card.name,
                 classDeck: card.classDeck,
                 deckName: card.deck,
+                initialDeck: card.deck,
+                initialId: card.id,
+                initialName: card.name,
                 cardType: card.type,
                 cardDescription: card.description,
                 objects: card.objects
@@ -44,6 +48,9 @@ class editExistingCard extends Component {
                 cardName: card.name,
                 classDeck: card.classDeck,
                 cardDeck: card.deck,
+                initialDeck: card.deck,
+                initialId: card.id,
+                initialName: card.name,
                 cardType: card.type,
                 cardDescription: card.description
             })
@@ -114,17 +121,18 @@ class editExistingCard extends Component {
         this.toCloseModalEditForm();
     };
     saveCard = async(card) => {
-        let deck = this.state.decks.filter(item => item.name === this.state.editedCard.deck)[0];
-        if (card.deck === this.state.editedCard.deck) {
-            let arr = Array.from(deck.objects);
-            let index = 0;
-            for (const item of arr) {
-                if (item.id === this.props.editedCard.id) {
-                    index = arr.indexOf(item);
-                }
+        let deck = this.state.decks.filter(item => item.name === this.state.initialDeck)[0];
+        let arr = JSON.parse(JSON.stringify(deck.objects));
+        let index = 0;
+        for (const item of arr) {
+            if (item.name === this.state.initialName) {
+                index = arr.indexOf(item);
             }
-            card.id = this.props.editedCard.id;
-            deck.objects = arr.splice(index, 1, card);
+        }
+        if (card.deck === this.state.initialDeck) {
+            let newArr = JSON.parse(JSON.stringify(arr));
+            newArr.splice(index, 1, card);
+            deck.objects = newArr;
             await fetch(`http://localhost:5000/js/${deck.id}`, {
                 method: "PUT",
                 body: JSON.stringify(deck),
@@ -132,7 +140,6 @@ class editExistingCard extends Component {
                     "Content-type": "application/json"
                 }
             });
-            this.setState({editedCard: {}});
         } else {
             let newDeck = this.state.decks.filter(item => item.name === this.state.cardDeck)[0];
             if (newDeck.objects.length === 0) {
@@ -148,40 +155,49 @@ class editExistingCard extends Component {
                     "Content-type": "application/json"
                 }
             });
-            this.props.deleteCard(this.state.editedCard);
+            arr.splice(index, 1);
+            deck.objects = arr;
+            await fetch(`http://localhost:5000/js/${deck.id}`, {
+                method: "PUT",
+                body: JSON.stringify(deck),
+                headers: {
+                    "Content-type": "application/json"
+                }
+            });
         }
-        this.toCloseModalEditForm();
         this.props.getAndUnpack();
+        this.toCloseModalEditForm();
     };
     saveIt = event => {
         event.preventDefault();
-        if (this.state.editedCard.classDeck === "deck") {
+        if (this.state.classDeck === "deck") {
             this.validate(["cardName"]);
             if (this.isValid()) {
                 const newDeck = {
                     name: this.state.cardName,
-                    classDeck: this.state.editedCard.classDeck,
+                    classDeck: this.state.classDeck,
                     deck: this.state.cardName,
                     type: this.state.cardName,
                     description: this.state.cardDescription,
-                    id: this.state.editedCard.id
+                    id: this.state.initialId
                 };
-                const arrOfCards = Array.from(this.state.editedCard.objects);
-                for (const obj of arrOfCards) {
+                let arrOfCards = this.state.objects.length > 0 ? JSON.parse(JSON.stringify(this.state.objects)) : [];
+                for (let obj of arrOfCards) {
                     obj.deck = newDeck.name;
                 }
                 newDeck.objects = arrOfCards;
                 this.saveDeck(newDeck);
             }
-        } else if (this.state.editedCard.classDeck === "card") {
+        } else if (this.state.classDeck === "card") {
             this.validate(["cardName", "cardDeck", "cardType", "cardDescription"]);
             if (this.isValid()) {
                 const newCard = {
                     name: this.state.cardName,
-                    classDeck: this.state.editedCard.classDeck,
+                    classDeck: this.state.classDeck,
                     deck: this.state.cardDeck,
                     type: this.state.cardType,
-                    description: this.state.cardDescription
+                    description: this.state.cardDescription,
+                    id: this.state.initialId
                 };
                 this.saveCard(newCard);
             }
@@ -212,7 +228,7 @@ class editExistingCard extends Component {
                                         type="radio"
                                         name="deckOrCard"
                                         id="chooseDeck"
-                                        value="deck"
+                                        value={this.state.classDeck}
                                         checked={this.state.classDeck === "deck"}
                                         disabled={true}
                                     />
@@ -223,7 +239,7 @@ class editExistingCard extends Component {
                                         type="radio"
                                         name="deckOrCard"
                                         id="chooseCard"
-                                        value="card"
+                                        value={this.state.classDeck}
                                         checked={this.state.classDeck === "card"}
                                         disabled={true}
                                     />
@@ -278,9 +294,6 @@ class editExistingCard extends Component {
                                             name="deckName"
                                             id="createDeck"
                                             value={this.state.cardName}
-                                            onChange={event => {
-                                                this.setState({deckName: event.target.value});
-                                            }}
                                             disabled={true}
                                         />
                                     </div>
@@ -293,9 +306,6 @@ class editExistingCard extends Component {
                                             name="cardType"
                                             id="cardType"
                                             value={this.state.cardName}
-                                            onChange={event => {
-                                                this.setState({cardType: event.target.value});
-                                            }}
                                             disabled={true}
                                         />
                                     </div>
@@ -319,7 +329,8 @@ class editExistingCard extends Component {
                                         name="cardDescription"
                                         id="cardDescription"
                                         value={this.state.cardDescription}
-                                        placeholder={this.state.cardDescription || "add description here..."}
+                                        placeholder={this.state.cardDescription || "add description" +
+                                        " here..."}
                                         onChange={event => {
                                             this.setState({cardDescription: event.target.value});
                                         }}

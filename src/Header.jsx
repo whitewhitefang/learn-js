@@ -7,7 +7,7 @@ class Header extends Component {
             <div className="header">
                 <ul>
                     <li>
-                        <div className="menuItem">
+                        <div className="menuItem" title="add new card">
                             <a href="/#" onClick={event => {
                                 event.preventDefault();
                                 this.props.toggleModalForm();
@@ -18,9 +18,10 @@ class Header extends Component {
                         </div>
                     </li>
                     <li>
-                        <div className="menuItem">
+                        <div className="menuItem" title="edit deck or card">
                             <a href="/#" onClick={event => {
                                 event.preventDefault();
+                                event.stopPropagation();
                                 this.props.toggleEditMode();
                             }}
                             >
@@ -35,16 +36,19 @@ class Header extends Component {
                         </div>
                     </li>
                     <li>
-                        <div className="menuItem" onClick={event => {
-                            event.preventDefault();
-                            this.props.toggleTheRandom();
-                        }}
+                        <div
+                            className="menuItem"
+                            title="show random card"
+                            onClick={event => {
+                                event.preventDefault();
+                                this.props.toggleTheRandom();
+                            }}
                         >
                             <a href="/#">random card</a>
                         </div>
                     </li>
                     <li>
-                        <div className="menuItem recycle">
+                        <div className="menuItem recycle" title="empty trash or restore deleted cards">
                             <a href="/#" onClick={event => {
                                 event.preventDefault();
                                 this.props.toggleModalForm();

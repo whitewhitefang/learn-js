@@ -59,16 +59,17 @@ class MainContent extends Component {
     deleteCard = async(item) => {
         let url = `http://localhost:5000/js/`;
         if (item.classDeck === "card") {
-            const deck = this.state.decks.filter(exactDeck => exactDeck.name === item.deck)[0];
+            let deck = this.state.decks.filter(exactDeck => exactDeck.name === item.deck)[0];
             url = url + deck.id;
             let index = 0;
-            let arr = deck.objects;
+            let arr = JSON.parse(JSON.stringify(deck.objects));
             for (const card of arr) {
                 if (card.id === item.id) {
                     index = arr.indexOf(card);
                 }
             }
-            deck.objects.splice(index, 1);
+            arr.splice(index, 1);
+            deck.objects = arr;
             const response = await fetch(url, {
                 method: "PUT",
                 body: JSON.stringify(deck),

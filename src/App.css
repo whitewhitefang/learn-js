@@ -13,6 +13,7 @@
     font-weight: bold;
     margin: -10px auto 0 auto;
     padding: 0;
+    z-index: 999;
 }
 .header>ul {
     list-style: none;
@@ -45,11 +46,12 @@ a:hover {
 a:active {
     color: black;
 }
+
 .recycle>a {
     display: inline;
 }
 .recycleBin {
-    width: 10%;
+    width: 9%;
     margin-top: 5px;
 }
 
@@ -58,22 +60,24 @@ a:active {
     padding-top: 50px;
 }
 .decks, .cards {
-    width: 90%;
+    width: 96%;
     margin: 5px auto 25px auto;
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-start;
     flex-flow: row;
     flex-wrap: wrap;
 }
 .cards {
     padding-top: 35px;
+    position: relative;
 }
 .deck {
-    width: 180px;
-    height: 240px;
+    width: 200px;
+    height: 270px;
     border: 1px solid black;
     border-radius: 5px;
     margin-top: 10px;
+    margin-right: 12px;
     padding: 10px;
     text-align: center;
     overflow-x: hidden;
@@ -84,15 +88,18 @@ a:active {
     padding-top: 25px;
 }
 .card {
-    width: 170px;
-    height: 220px;
+    width: 200px;
+    height: 270px;
+    position: relative;
     border: 1px solid black;
     border-radius: 5px;
     margin-top: 10px;
+    margin-right: 12px;
     padding: 10px;
     text-align: center;
     overflow-x: hidden;
     overflow-y: auto;
+    background: linear-gradient(to bottom, white 83%, deepskyblue 99%);
 }
 .card>h2 {
     font-size: 1.2rem;
@@ -101,16 +108,13 @@ a:active {
 .deck:hover, .card:hover {
     color: red;
 }
-.desc {
-    text-align: left;
-    color: black;
-}
 .amount {
     font-weight: bold;
     float: right;
     padding-top: 0;
     margin-top: 0;
 }
+
 .allTheButtons {
     background-color: white;
     border-radius: 5px;
@@ -122,22 +126,51 @@ a:active {
 .buttonDesc {
     margin-top: 50%;
 }
-.textDesc {
+.textDesc, .desc {
     color: black;
     text-align: left;
     word-wrap: break-word;
+    margin-top: 10px;
+    font: 1.1rem "Times New Roman";
+    line-height: 1.8rem;
 }
+.descHeader {
+    font-size: 1.4rem;
+    font-weight: bold;
+    word-wrap: break-word;
+    color: black;
+    margin-top: 25px;
+    margin-bottom: 20px;
+}
+.card::-webkit-scrollbar, .deck::-webkit-scrollbar {
+    display: none;
+}
+.nameOfDeck {
+    position: absolute;
+    bottom: 5px;
+    width: 200px;
+    font-size: 1.3rem;
+    font-family: Algerian, monospace;
+    color: darkgray;
+}
+
 .editButton {
     width: 50%;
-    background-color: blue;
-    font-size: 1.1rem;
-    font-weight: bold;
+    font-size: .9rem;
 }
 .deleteButton {
     width: 50%;
-    background-color: red;
-    font-size: 1.1rem;
-    font-weight: bold;
+    font-size: .9rem;
+}
+.editButton:hover {
+    border-color: deepskyblue;
+    box-shadow: 1.5px 1.5px 1px .4px deepskyblue;
+    text-shadow: .2px .2px .1px deepskyblue;
+}
+.deleteButton:hover {
+    border-color: red;
+    box-shadow: 1.5px 1.5px 1px .4px red;
+    text-shadow: .2px .2px .1px red;
 }
 .modal-layer {
     position: fixed;
@@ -154,8 +187,8 @@ a:active {
     margin: 30px auto;
     z-index: 1001;
     background-color: white;
-    width: 480px;
-    height: 570px;
+    width: 530px;
+    height: 620px;
     border: 1px solid black;
     border-radius: 7px;
     overflow: auto;
@@ -165,8 +198,11 @@ a:active {
 }
 .modalCard>.desc {
     padding: 0 20px;
-    font-size: 1.2rem;
-    line-height: 1.7rem;
+    font: 1.2rem "Times New Roman";
+    line-height: 1.8rem;
+}
+.modalCard::-webkit-scrollbar {
+    display: none;
 }
 .modalCard .modalHeader {
     margin-top: 25px;
@@ -259,4 +295,31 @@ a:active {
     padding-top: 15px;
     margin: 3px 25px;
     color: red;
+}
+
+.cardwdcomp-appear {
+    opacity: 0;
+    transform-style: preserve-3d;
+    transform: scale(0.1) rotateY(0deg) translate(0, 0);
+    perspective: 1000px;
+    backface-visibility: hidden;
+}
+.cardwdcomp-appear-done {
+    opacity: 1;
+    transform: scale(1) rotateY(360deg) translate(100%, 10%);
+    transition: opacity 400ms ease-in, transform 400ms ease-in;
+}
+.cardwdcomp-enter {
+    opacity: 1;
+    transform: scale(1);
+}
+.cardwdcomp-exit {
+    opacity: 0.8;
+    transform: scale(0.7) rotateY(0deg) translate(0, 0);
+    transition: opacity 700ms ease-out, transform 600ms ease-out;
+}
+.cardwdcomp-exit-active {
+    opacity: 0;
+    transform: scale(0.3);
+    transition: opacity 700ms ease-out, transform 600ms ease-out;
 }

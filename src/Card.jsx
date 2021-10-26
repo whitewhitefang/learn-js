@@ -1,23 +1,42 @@
 import React, {Component} from 'react';
+import ModalCardWithDescription from "./ModalCardWithDescription";
 
 class Card extends Component {
     constructor(props) {
         super(props);
         this.state = {
             card: this.props.card,
-            showedDesc: false
+            showedDesc: false,
+            animate: false,
+            positionX: 0,
+            positionY: 0
         };
     }
-    showDesc = () => {
+    showDesc = event => {
         if (!this.state.showedDesc) {
-            this.setState({showedDesc: true});
+            const parent = document.body.getBoundingClientRect();
+            const element = event.target.getBoundingClientRect();
+            const positionX = element.left - parent.left;
+            const positionY = element.top - parent.top;
+            this.setState({showedDesc: true, animate: true, positionX, positionY});
+            console.log(positionX, positionY);
         } else {
-            this.setState({showedDesc: false});
+            setTimeout(() => {
+                this.setState({showedDesc: false});
+            }, 700);
+            this.setState({animate: false, positionX: 0, positionY: 0})
+
         }
     };
     render() {
         return (
-            <div className="card" onClick={this.showDesc}>
+            <div
+                className="card"
+                title="click to see a description"
+                 onClick={event => {
+                this.showDesc(event);
+            }}
+            >
                 <h2>{this.state.card.name}</h2>
                 {this.props.editMode ?
                     <div className="editButtonsSection">
@@ -40,9 +59,20 @@ class Card extends Component {
                         </button>
                     </div>
                     : ""}
-                <div className="desc">
-                    {this.state.showedDesc ? this.state.card.description : ""}
-                </div>
+                {this.state.showedDesc ?
+                    <ModalCardWithDescription
+                        card={this.state.card}
+                        showedDesc={this.state.showedDesc}
+                        animate={this.state.animate}
+                        showDesc={this.showDesc}
+                        positionX={this.state.positionX}
+                        positionY={this.state.positionY}
+                    />
+                    :
+                    <div className="nameOfDeck" title="the deck of this card">
+                        {this.state.card.deck}
+                    </div>
+                }
             </div>
         )
     }

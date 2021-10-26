@@ -20,13 +20,13 @@ class ButtonDesc extends Component {
     render() {
         if (this.state.item.description) {
             return (
-                <div>
+                <div title="click to see a description">
+                    <div className="textDesc">{this.state.desc}</div>
                     <button className="buttonDesc allTheButtons" onClick={event => {
                         event.stopPropagation();
                         this.showDesc();
                     }}
                     >{this.state.buttonInfo}</button>
-                    <div className="textDesc">{this.state.desc}</div>
                 </div>
             );
         } else {

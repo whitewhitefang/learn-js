@@ -50,12 +50,30 @@ class ModalCard extends Component {
     render() {
         return (
             <div className="modal-layer" onClick={this.toCloseModal}>
-                <div className="modalCard" onClick={this.showDesc}>
-                    <span className="closeSign" onClick={this.toCloseModal}>&#10006;</span>
+                <div className="modalCard" title="click to see a description" onClick={this.showDesc}>
+                    <span
+                        className="closeSign"
+                        title="close"
+                        onClick={this.toCloseModal}
+                    >
+                        &#10006;
+                    </span>
                     <div className="modalHeader">
-                        <button className="prevModal allTheButtons" onClick={this.prevModalCard}>&larr;</button>
+                        <button
+                            className="prevModal allTheButtons"
+                            title="previous random card"
+                            onClick={this.prevModalCard}
+                        >
+                            &larr;
+                        </button>
                         <h2>{this.state.card.name}</h2>
-                        <button className="nextModal allTheButtons" onClick={this.nextModalCard}>&rarr;</button>
+                        <button
+                            className="nextModal allTheButtons"
+                            title="next random card"
+                            onClick={this.nextModalCard}
+                        >
+                            &rarr;
+                        </button>
                     </div>
                     <div className="desc">
                         {this.state.showedDesc ? this.state.card.description : ""}
