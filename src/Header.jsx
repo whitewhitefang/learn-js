@@ -2,6 +2,16 @@ import React, {Component} from 'react';
 import binFull from './imgs/binFull.png';
 
 class Header extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            searchedCard: ""
+        }
+    }
+    searching = event => {
+        this.setState({searchedCard: event.target.value});
+        this.props.searching(event.target.value);
+    };
     render() {
         return (
             <div className="header">
@@ -13,7 +23,7 @@ class Header extends Component {
                                 this.props.toggleModalForm();
                             }}
                             >
-                                + add new
+                                add
                             </a>
                         </div>
                     </li>
@@ -25,8 +35,7 @@ class Header extends Component {
                                 this.props.toggleEditMode();
                             }}
                             >
-                                {this.props.editMode ? "cancel" +
-                                " editing" : "edit mode"}
+                                {this.props.editMode ? "edit off" : "edit"}
                             </a>
                         </div>
                     </li>
@@ -44,7 +53,20 @@ class Header extends Component {
                                 this.props.toggleTheRandom();
                             }}
                         >
-                            <a href="/#">random card</a>
+                            <a href="/#">random</a>
+                        </div>
+                    </li>
+                    <li>
+                        <div className="menuItem search" title="">
+                            <form>
+                                <input
+                                    type="text"
+                                    className="searchBar"
+                                    placeholder="search"
+                                    value={this.state.searchedCard}
+                                    onChange={this.searching}
+                                />
+                            </form>
                         </div>
                     </li>
                     <li>

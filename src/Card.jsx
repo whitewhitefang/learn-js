@@ -14,12 +14,11 @@ class Card extends Component {
     }
     showDesc = event => {
         if (!this.state.showedDesc) {
-            const parent = document.body.getBoundingClientRect();
+            const parent = event.target.parentNode.getBoundingClientRect();
             const element = event.target.getBoundingClientRect();
             const positionX = element.left - parent.left;
             const positionY = element.top - parent.top;
             this.setState({showedDesc: true, animate: true, positionX, positionY});
-            console.log(positionX, positionY);
         } else {
             setTimeout(() => {
                 this.setState({showedDesc: false});
@@ -33,9 +32,9 @@ class Card extends Component {
             <div
                 className="card"
                 title="click to see a description"
-                 onClick={event => {
-                this.showDesc(event);
-            }}
+                onClick={event => {
+                    this.showDesc(event);
+                }}
             >
                 <h2>{this.state.card.name}</h2>
                 {this.props.editMode ?
@@ -53,7 +52,8 @@ class Card extends Component {
                             className="deleteButton allTheButtons"
                             onClick={event => {
                                 event.stopPropagation();
-                                this.props.deleteIt(this.state.card)}}
+                                this.props.deleteIt(this.state.card);
+                            }}
                         >
                             delete
                         </button>

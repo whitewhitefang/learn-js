@@ -22,16 +22,16 @@ class ModalCardWithDescription extends Component {
                 <CSSTransition
                     in={this.props.animate}
                     timeout={{
-                        appear: 400,
-                        enter: 400,
-                        exit: 800
+                        appear: 100,
+                        enter: 200,
+                        exit: 500
                     }}
                     classNames={"cardwdcomp"}
                     appear={true}
                     unmountOnExit={true}
                 >
-                    <div className="modalCard"
-                         style={{position: "absolute", top: `${this.props.positionY}`, left: `${this.props.positionX}`}}
+                    <div className="modalCard cardIsOpened"
+                         style={{position: "absolute", top: `${this.props.positionY}`, left:`${this.props.positionX}`}}
                          title="card description"
                          onClick={event => {
                              event.stopPropagation();

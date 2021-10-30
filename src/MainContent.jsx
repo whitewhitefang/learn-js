@@ -4,21 +4,38 @@ import Card from "./Card";
 import ModalCard from "./ModalCard";
 import AddNewCard from "./AddNewCard";
 import EditExistingCard from "./EditExistingCard";
+import ConfirmModal from "./ConfirmModal";
 
 class MainContent extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            initDecks: [],
+            initCards: [],
             decks: [],
             cards: [],
             deck: [],
             openedDeck: false,
-            editedCard: {}
+            editedCard: {},
+            searchedCard: "",
+            deletedCard: {}
         };
     }
     componentDidMount() {
         this.getAndUnpack();
     };
+    shouldComponentUpdate(nextProps, nextState) {
+        if (nextProps.searchedCard !== this.props.searchedCard) {
+            let searchTerm = nextProps.searchedCard;
+            let filteredDecks = this.state.initDecks.filter(item => item.name.toLowerCase().includes(searchTerm.toLowerCase()));
+            let filteredCards = this.state.initCards.filter(item => item.name.toLowerCase().includes(searchTerm.toLowerCase()));
+            this.setState({decks: filteredDecks, cards: filteredCards, searchedCard: this.props.searchedCard, deck: [], openedDeck: false});
+        }
+        if (nextProps.confirmed !== this.props.confirmed) {
+            this.setState({confirmed: nextProps.confirmed});
+        }
+        return true;
+    }
     getAndUnpack = async() => {
         const request = await fetch("http://localhost:5000/js", {
             method: "GET"
@@ -42,7 +59,12 @@ class MainContent extends Component {
                 unpack(obj.objects);
             }
         }
-        this.setState({decks: unpackedDecks, cards: unpackedCards});
+        this.setState({
+            initDecks: unpackedDecks,
+            initCards: unpackedCards,
+            decks: unpackedDecks,
+            cards: unpackedCards
+        });
     };
     showCards = currDeck => {
         if (!this.state.openedDeck) {
@@ -97,10 +119,13 @@ class MainContent extends Component {
         }
     };
     deleteIt = item => {
-        const yes = window.confirm("Are you sure in this action with deleting this card and any others inside of it?");
-        if (yes) {
-            this.deleteCard(item);
-        }
+        this.props.confirm("Are you sure in this action with deleting this card and any others inside of" +
+            " it?");
+        this.setState({deletedCard: item});
+    };
+    reallyDelete = () => {
+        this.deleteCard(this.state.deletedCard);
+        this.props.closeConfirmModal();
     };
     findAndScroll = () => {
         let coords = window.document.querySelector(".cards");
@@ -132,6 +157,11 @@ class MainContent extends Component {
                     modalToEditCard={this.props.modalToEditCard}
                     deleteCard={this.deleteCard}
                 /> : ""}
+                {this.props.modalConfirm ? <ConfirmModal
+                    text={this.props.confirmText}
+                    closeConfirmModal={this.props.closeConfirmModal}
+                    reallyDelete={this.reallyDelete}
+                /> : ""}
                 <div className="decks">
                     {this.state.decks.map(item => {
                         return (
@@ -144,6 +174,8 @@ class MainContent extends Component {
                                 modalToEditCard={this.props.modalToEditCard}
                                 deleteIt={this.deleteIt}
                                 openedDeck={this.state.openedDeck}
+                                closeConfirmModal={this.props.closeConfirmModal}
+                                toConfirm={this.toConfirm}
                             />
                             )
                     })}
@@ -158,6 +190,8 @@ class MainContent extends Component {
                                 editedCard={this.editedCard}
                                 modalToEditCard={this.props.modalToEditCard}
                                 deleteIt={this.deleteIt}
+                                closeConfirmModal={this.props.closeConfirmModal}
+                                toConfirm={this.toConfirm}
                             />
                         )
                     }) : ""}

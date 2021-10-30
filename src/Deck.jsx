@@ -27,7 +27,7 @@ class Deck extends Component {
                         <div className="editButtonsSection">
                             <button
                                 className="editButton allTheButtons"
-                                title="edit the card"
+                                title="edit card"
                                 onClick={event => {
                                 event.stopPropagation();
                                 this.props.editedCard(this.state.item);
@@ -37,7 +37,7 @@ class Deck extends Component {
                             </button>
                             <button
                                 className="deleteButton allTheButtons"
-                                title="delete the card"
+                                title="delete card"
                                 onClick={event => {
                                     event.stopPropagation();
                                     this.props.deleteIt(this.state.item)}}

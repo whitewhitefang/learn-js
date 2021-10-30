@@ -20,7 +20,7 @@ class ButtonDesc extends Component {
     render() {
         if (this.state.item.description) {
             return (
-                <div title="click to see a description">
+                <div title={this.state.openedDesc ? "close description" : "click to see a description"}>
                     <div className="textDesc">{this.state.desc}</div>
                     <button className="buttonDesc allTheButtons" onClick={event => {
                         event.stopPropagation();

@@ -10,9 +10,18 @@ class App extends Component {
             random: false,
             modalForm: false,
             editMode: false,
-            modalEditCard: false
+            modalEditCard: false,
+            searchedCard: "",
+            modalConfirm: false,
+            confirmText: ""
         }
     }
+    confirm = text => {
+        this.setState({modalConfirm: true, confirmText: text});
+    };
+    searching = searchedCard => {
+        this.setState({searchedCard});
+    };
     modalToEditCard = () => {
         if (!this.state.modalEditCard) {
             this.setState({modalEditCard: true});
@@ -38,6 +47,9 @@ class App extends Component {
     closeModalForm = () => {
         this.setState({modalForm: false});
     };
+    closeConfirmModal = () => {
+        this.setState({modalConfirm: false, confirmText: ""});
+    };
     render() {
         return (
             <div className="container">
@@ -46,6 +58,7 @@ class App extends Component {
                     toggleModalForm={this.toggleModalForm}
                     toggleEditMode={this.toggleEditMode}
                     editMode={this.state.editMode}
+                    searching={this.searching}
                 />
                 <MainContent
                     random={this.state.random}
@@ -55,6 +68,12 @@ class App extends Component {
                     editMode={this.state.editMode}
                     modalEditCard={this.state.modalEditCard}
                     modalToEditCard={this.modalToEditCard}
+                    searchedCard={this.state.searchedCard}
+                    confirm={this.confirm}
+                    modalConfirm={this.state.modalConfirm}
+                    confirmText={this.state.confirmText}
+                    closeConfirmModal={this.closeConfirmModal}
+                    toConfirm={this.toConfirm}
                 />
             </div>
         );
