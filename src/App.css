@@ -1,26 +1,29 @@
 :root {
     --light-background: white;
-    --dark-background: black;
+    --dark-background: #1d1e1e;
+    --back: var(--light-background);
+    --col: var(--light-text-and-border);
     --light-text-and-border: black;
     --dark-text-and-border: white;
     --light-and-dark-always-orange: orange;
     --warning-color: red;
 }
 body {
-    background-color: var(--light-background);
+    background-color: var(--back);
 }
 .container {
     width: 100%;
     margin: 0 auto;
     display: flex;
     justify-content: center;
-    background-color: var(--light-background);
+    background-color: var(--back);
 }
 .header {
     position: fixed;
     width: 100%;
     height: 40px;
-    background-color: var(--light-background);
+    background-color: var(--back);
+    color: var(--col);
     font: 1.8rem "Rockwell Extra Bold";
     font-weight: bold;
     margin: -10px auto 0 auto;
@@ -44,35 +47,35 @@ a {
     text-align: center;
 }
 a:link {
-    color: var(--light-text-and-border);
+    color: var(--col);
 }
 a:visited {
-    color: var(--light-text-and-border);
+    color: var(--col);
 }
 a:focus {
-    color: var(--light-text-and-border);
+    color: var(--col);
 }
 a:hover {
     color: var(--warning-color);
 }
 a:active {
-    color: var(--light-text-and-border);
+    color: var(--col);
 }
 
-.recycle>a {
-    display: inline;
-}
-.recycleBin {
-    width: 9%;
-    margin-top: 5px;
+.home {
+    height: 20px;
+    width: auto;
+    display: inline-block;
+    background-color: var(--light-and-dark-always-orange);
+    margin-right: 3px;
 }
 
 .searchBar {
     width: 100%;
     height: auto;
-    font: 1.3rem "Rockwell Extra Bold";
+    font: 1.6rem "Rockwell Extra Bold";
     font-weight: bold;
-    border: 1px solid var(--light-text-and-border);
+    border: 1px solid lightgrey;
     border-radius: 10px;
     padding: 0 0 0 7px;
 }
@@ -83,7 +86,7 @@ a:active {
 }
 .decks, .cards {
     width: 96%;
-    background-color: var(--light-background);
+    background-color: var(--back);
     margin: 5px auto 25px auto;
     display: flex;
     justify-content: flex-start;
@@ -97,7 +100,8 @@ a:active {
 .deck {
     width: 200px;
     height: 270px;
-    border: 1px solid var(--light-text-and-border);
+    border: 1px solid var(--col);
+    color: var(--col);
     border-radius: 5px;
     margin-top: 10px;
     margin-right: 12px;
@@ -105,7 +109,7 @@ a:active {
     text-align: center;
     overflow-x: hidden;
     overflow-y: auto;
-    background: linear-gradient(45deg, var(--light-background) 85%, var(--light-and-dark-always-orange) 85%);
+    background: linear-gradient(45deg, var(--back) 85%, var(--light-and-dark-always-orange) 85%);
 }
 .deck>h2 {
     padding-top: 25px;
@@ -114,7 +118,8 @@ a:active {
     width: 200px;
     height: 270px;
     position: relative;
-    border: 1px solid var(--light-text-and-border);
+    border: 1px solid var(--col);
+    color: var(--col);
     border-radius: 5px;
     margin-top: 10px;
     margin-right: 12px;
@@ -122,7 +127,7 @@ a:active {
     text-align: center;
     overflow-x: hidden;
     overflow-y: auto;
-    background: linear-gradient(to bottom, var(--light-background) 83%, deepskyblue 99%);
+    background: linear-gradient(to bottom, var(--back) 83%, deepskyblue 99%);
 }
 .card>h2 {
     font-size: 1.2rem;
@@ -139,7 +144,8 @@ a:active {
 }
 
 .allTheButtons {
-    background-color: var(--light-background);
+    background-color: var(--back);
+    color: var(--col);
     border-radius: 5px;
 }
 .allTheButtons:hover {
@@ -150,7 +156,7 @@ a:active {
     margin-top: 50%;
 }
 .textDesc, .desc {
-    color: var(--light-text-and-border);
+    color: var(--col);
     text-align: left;
     word-wrap: break-word;
     margin-top: 10px;
@@ -161,7 +167,7 @@ a:active {
     font-size: 1.4rem;
     font-weight: bold;
     word-wrap: break-word;
-    color: var(--light-text-and-border);
+    color: var(--col);
     margin-top: 25px;
     margin-bottom: 20px;
 }
@@ -209,10 +215,10 @@ a:active {
 .modalCard {
     margin: 30px auto;
     z-index: 1001;
-    background-color: var(--light-background);
+    background-color: var(--back);
     width: 530px;
     height: 620px;
-    border: 1px solid var(--light-text-and-border);
+    border: 1px solid var(--col);
     border-radius: 7px;
     overflow: auto;
 }
@@ -231,6 +237,7 @@ a:active {
     margin-top: 25px;
     width: 100%;
     display: flex;
+    color: var(--col);
     flex-direction: row;
     justify-content: space-between;
     flex-wrap: nowrap;
@@ -239,7 +246,7 @@ a:active {
     width: 20%;
     height: 2%;
     margin: 23px;
-    background-color: var(--light-background);
+    background-color: var(--back);
     border-radius: 5px;
 }
 .closeSign {
@@ -253,13 +260,14 @@ a:active {
 .modalForm {
     margin: 30px auto;
     z-index: 1001;
-    background-color: var(--light-background);
+    background-color: var(--back);
     width: 50%;
     height: auto;
-    border: 1px solid var(--light-text-and-border);
+    border: 1px solid var(--col);
     border-radius: 5px;
     font-size: 1.2rem;
     font-weight: bold;
+    color: var(--col);
 }
 .modalFormBody {
     margin: 35px 30px 0 30px;
@@ -278,7 +286,7 @@ a:active {
 }
 .addCardButton:hover {
     background-color: var(--light-and-dark-always-orange);
-    color: var(--light-background);
+    color: var(--back);
     cursor: pointer;
 }
 .cancelAddCardButton {
@@ -364,9 +372,10 @@ a:active {
     align-self: center;
     margin-top: 15%;
     padding: 6px 6px;
-    background-color: var(--light-background);
-    border: 1px solid var(--light-text-and-border);
+    background-color: var(--back);
+    border: 1px solid var(--col);
     border-radius: 7px;
+    color: var(--col);
 }
 .confirm-modal .modalText {
     text-align: center;
@@ -382,10 +391,14 @@ a:active {
 .confirm-yes {
     width: 30%;
     font-size: .9rem;
+    background-color: var(--back);
+    color: var(--col);
 }
 .confirm-no {
     width: 30%;
     font-size: .9rem;
+    background-color: var(--back);
+    color: var(--col);
 }
 .confirm-no:hover {
     border-color: deepskyblue;

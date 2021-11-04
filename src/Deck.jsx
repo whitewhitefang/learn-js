@@ -14,8 +14,8 @@ class Deck extends Component {
                 <div
                     className="deck"
                     title="click to open this deck"
-                    style={this.state.item.objects.length > 0 ? {background: "linear-gradient(45deg," +
-                            " white 85%, orange 85%)"} : {background: "linear-gradient(45deg, white 85%, #FFDE9F 85%)"}}
+/*                    style={this.state.item.objects.length > 0 ? {background: "linear-gradient(45deg," +
+                            " white 85%, orange 85%)"} : {background: "linear-gradient(45deg, white 85%, #FFDE9F 85%)"}}*/
                     onClick={() => {
                         this.props.onShowCards(this.state.item);
                     }}>

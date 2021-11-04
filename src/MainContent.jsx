@@ -5,6 +5,7 @@ import ModalCard from "./ModalCard";
 import AddNewCard from "./AddNewCard";
 import EditExistingCard from "./EditExistingCard";
 import ConfirmModal from "./ConfirmModal";
+import About from "./About";
 
 class MainContent extends Component {
     constructor(props) {
@@ -30,9 +31,6 @@ class MainContent extends Component {
             let filteredDecks = this.state.initDecks.filter(item => item.name.toLowerCase().includes(searchTerm.toLowerCase()));
             let filteredCards = this.state.initCards.filter(item => item.name.toLowerCase().includes(searchTerm.toLowerCase()));
             this.setState({decks: filteredDecks, cards: filteredCards, searchedCard: this.props.searchedCard, deck: [], openedDeck: false});
-        }
-        if (nextProps.confirmed !== this.props.confirmed) {
-            this.setState({confirmed: nextProps.confirmed});
         }
         return true;
     }
@@ -82,7 +80,7 @@ class MainContent extends Component {
         let url = `http://localhost:5000/js/`;
         if (item.classDeck === "card") {
             let deck = this.state.decks.filter(exactDeck => exactDeck.name === item.deck)[0];
-            url = url + deck.id;
+            url += deck.id;
             let index = 0;
             let arr = JSON.parse(JSON.stringify(deck.objects));
             for (const card of arr) {
@@ -107,7 +105,7 @@ class MainContent extends Component {
                 console.log("Something went wrong");
             }
         } else {
-            url = url + item.id;
+            url += item.id;
             const response = await fetch(url, {
                 method: "DELETE"
             });
@@ -162,6 +160,9 @@ class MainContent extends Component {
                     closeConfirmModal={this.props.closeConfirmModal}
                     reallyDelete={this.reallyDelete}
                 /> : ""}
+                {this.props.about ? <About
+                    toAbout={this.props.toAbout}
+                /> : ""}
                 <div className="decks">
                     {this.state.decks.map(item => {
                         return (
@@ -174,8 +175,6 @@ class MainContent extends Component {
                                 modalToEditCard={this.props.modalToEditCard}
                                 deleteIt={this.deleteIt}
                                 openedDeck={this.state.openedDeck}
-                                closeConfirmModal={this.props.closeConfirmModal}
-                                toConfirm={this.toConfirm}
                             />
                             )
                     })}
@@ -190,8 +189,6 @@ class MainContent extends Component {
                                 editedCard={this.editedCard}
                                 modalToEditCard={this.props.modalToEditCard}
                                 deleteIt={this.deleteIt}
-                                closeConfirmModal={this.props.closeConfirmModal}
-                                toConfirm={this.toConfirm}
                             />
                         )
                     }) : ""}

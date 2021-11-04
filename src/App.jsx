@@ -13,9 +13,31 @@ class App extends Component {
             modalEditCard: false,
             searchedCard: "",
             modalConfirm: false,
-            confirmText: ""
-        }
+            confirmText: "",
+            about: false,
+            theme: "light"
+        };
+        this.toggleTheme = this.toggleTheme.bind(this);
     }
+    toggleTheme = () => {
+        if (this.state.theme === "light") {
+            const backgroundColor = `var(--dark-background)`;
+            const color = `var(--dark-text-and-border)`;
+            document.body.style.setProperty("--back", backgroundColor);
+            document.body.style.setProperty("--col", color);
+            this.setState({theme: "dark"});
+        } else {
+            const backgroundColor = `var(--light-background)`;
+            const color = `var(--light-text-and-border)`;
+            document.body.style.setProperty("--back", backgroundColor);
+            document.body.style.setProperty("--col", color);
+            this.setState({theme: "light"});
+        }
+    };
+    toAbout =() => {
+        const ab = this.state.about;
+        this.setState({about: !ab});
+    };
     confirm = text => {
         this.setState({modalConfirm: true, confirmText: text});
     };
@@ -59,6 +81,9 @@ class App extends Component {
                     toggleEditMode={this.toggleEditMode}
                     editMode={this.state.editMode}
                     searching={this.searching}
+                    toAbout={this.toAbout}
+                    toggleTheme={this.toggleTheme}
+                    theme={this.state.theme}
                 />
                 <MainContent
                     random={this.state.random}
@@ -73,7 +98,8 @@ class App extends Component {
                     modalConfirm={this.state.modalConfirm}
                     confirmText={this.state.confirmText}
                     closeConfirmModal={this.closeConfirmModal}
-                    toConfirm={this.toConfirm}
+                    about={this.state.about}
+                    toAbout={this.toAbout}
                 />
             </div>
         );

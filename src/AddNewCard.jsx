@@ -91,7 +91,7 @@ class AddNewCard extends Component {
         let deckArrFiltered = this.state.decks.filter(item => item.name === this.state.newCardDeck);
         let deck = deckArrFiltered[0];
         if (deck.objects.length === 0) {
-            card.id = Number.parseInt(deck.id) + 0.1;
+            card.id = Number.parseInt(deck.id, 10) + 0.1;
         } else {
             card.id = Number((Number.parseFloat(deck.objects[deck.objects.length - 1].id) + 0.01).toPrecision(4));
         }

@@ -1,5 +1,7 @@
 import React, {Component} from 'react';
-import binFull from './imgs/binFull.png';
+import Moon from './imgs/moon.png';
+import Sun from './imgs/sun.png';
+import Home from './imgs/home.png';
 
 class Header extends Component {
     constructor(props) {
@@ -16,6 +18,14 @@ class Header extends Component {
         return (
             <div className="header">
                 <ul>
+                    <li>
+                        <div className="menuItem">
+                            <a href="/#">
+                                <img className="home" src={Home} alt="to start" />
+                                to start
+                            </a>
+                        </div>
+                    </li>
                     <li>
                         <div className="menuItem" title="add new card">
                             <a href="/#" onClick={event => {
@@ -37,11 +47,6 @@ class Header extends Component {
                             >
                                 {this.props.editMode ? "edit off" : "edit"}
                             </a>
-                        </div>
-                    </li>
-                    <li>
-                        <div className="menuItem">
-                            <a href="/#">learn all</a>
                         </div>
                     </li>
                     <li>
@@ -70,18 +75,25 @@ class Header extends Component {
                         </div>
                     </li>
                     <li>
-                        <div className="menuItem recycle" title="empty trash or restore deleted cards">
-                            <a href="/#" onClick={event => {
-                                event.preventDefault();
-                                this.props.toggleModalForm();
-                            }}
+                        <div
+                            className="menuItem"
+                        >
+                            <a href="/#"
+                                onClick={this.props.toggleTheme}
                             >
-                                <img className="recycleBin" src={binFull} alt="" />
+                                {this.props.theme === "light" ?
+                                    <img src={Moon} alt="dark mode"/>
+                                    :
+                                    <img src={Sun} alt="light mode"/>
+                                }
                             </a>
                         </div>
                     </li>
                     <li>
-                        <div className="menuItem">
+                        <div
+                            className="menuItem"
+                            onClick={this.props.toAbout}
+                        >
                             <a href="/#">about</a>
                         </div>
                     </li>

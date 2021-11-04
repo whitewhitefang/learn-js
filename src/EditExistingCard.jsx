@@ -143,7 +143,7 @@ class editExistingCard extends Component {
         } else {
             let newDeck = this.state.decks.filter(item => item.name === this.state.cardDeck)[0];
             if (newDeck.objects.length === 0) {
-                card.id = Number.parseInt(newDeck.id) + 0.1;
+                card.id = Number.parseInt(newDeck.id, 10) + 0.1;
             } else {
                 card.id = Number((Number.parseFloat(newDeck.objects[newDeck.objects.length - 1].id) + 0.01).toPrecision(4));
             }
@@ -165,7 +165,7 @@ class editExistingCard extends Component {
                 }
             });
         }
-        this.props.getAndUnpack();
+        await this.props.getAndUnpack();
         this.toCloseModalEditForm();
     };
     saveIt = event => {
