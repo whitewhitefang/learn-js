@@ -76,6 +76,11 @@ class AddNewCard extends Component {
     toCloseModalForm = () => {
         this.props.closeModalForm();
     };
+    escapeClose = event => {
+        if (event.key === "Escape") {
+            this.toCloseModalForm();
+        }
+    };
     saveNewDeck = async(deck) => {
         await fetch("http://localhost:5000/js", {
             method: "POST",
@@ -137,7 +142,7 @@ class AddNewCard extends Component {
     };
     render() {
         return (
-            <div className="modal-layer">
+            <div className="modal-layer" onKeyDown={this.toCloseModalForm}>
                 <div className="modalForm">
                     <span className="closeSign" onClick={this.toCloseModalForm}>&#10006;</span>
                     <div className="modalFormBody">

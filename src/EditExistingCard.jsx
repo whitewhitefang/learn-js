@@ -29,6 +29,10 @@ class editExistingCard extends Component {
     }
     componentDidMount() {
         this.unpackCard(this.props.editedCard);
+        document.addEventListener('keydown', this.escapeClose);
+    }
+    componentWillUnmount() {
+        document.removeEventListener('keydown', this.escapeClose);
     }
     unpackCard = card => {
         if (card.classDeck === "deck") {
@@ -108,6 +112,11 @@ class editExistingCard extends Component {
     };
     toCloseModalEditForm = () => {
         this.props.modalToEditCard();
+    };
+    escapeClose = event => {
+        if (event.key === "Escape") {
+            this.toCloseModalEditForm();
+        }
     };
     saveDeck = async(deck) => {
         await fetch(`http://localhost:5000/js/${deck.id}`, {

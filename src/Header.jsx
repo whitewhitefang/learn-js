@@ -14,14 +14,26 @@ class Header extends Component {
         this.setState({searchedCard: event.target.value});
         this.props.searching(event.target.value);
     };
+    scrollTo = event => {
+        event.preventDefault();
+        const mainContentDiv = document.querySelector('.mainContentDiv');
+        mainContentDiv.scrollIntoView({behavior: "smooth"});
+    };
     render() {
         return (
             <div className="header">
                 <ul>
                     <li>
                         <div className="menuItem">
-                            <a href="/#">
-                                <img className="home" src={Home} alt="to start" />
+                            <a
+                                href={"/#"}
+                                onClick={this.scrollTo}
+                            >
+                                <img
+                                    className="home"
+                                    src={Home}
+                                    alt="to start"
+                                />
                                 to start
                             </a>
                         </div>

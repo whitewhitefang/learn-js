@@ -1,6 +1,11 @@
 import React from "react";
 
 function ConfirmModal(props) {
+    document.addEventListener('keydown', function(event) {
+        if (event.key === "Escape") {
+            props.closeConfirmModal();
+        }
+    });
     return (
             <div className="confirm-modal-layer">
                 <div className="confirm-modal">

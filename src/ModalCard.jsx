@@ -22,6 +22,11 @@ class ModalCard extends Component {
         event.stopPropagation();
         this.props.closeModal();
     };
+    escapeClose = event => {
+        if (event.key === "Escape") {
+            this.props.closeModal();
+        }
+    };
     getRandomCard = () => {
         const currRandom = Math.trunc(1 + Math.random() * (this.state.cards.length - 1));
         const card = this.state.cards[currRandom];
@@ -46,6 +51,10 @@ class ModalCard extends Component {
         if (!this.card) {
             this.getRandomCard();
         }
+        document.addEventListener('keydown', this.escapeClose);
+    }
+    componentWillUnmount() {
+        document.removeEventListener('keydown', this.escapeClose);
     }
     render() {
         return (

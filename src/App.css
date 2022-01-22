@@ -113,6 +113,7 @@ a:active {
 }
 .deck>h2 {
     padding-top: 25px;
+    word-wrap: break-word;
 }
 .card {
     width: 200px;
@@ -222,9 +223,6 @@ a:active {
     border-radius: 7px;
     overflow: auto;
 }
-.modalCard>h2 {
-    text-align: center;
-}
 .modalCard>.desc {
     padding: 0 20px;
     font: 1.2rem "Times New Roman";
@@ -233,14 +231,19 @@ a:active {
 .modalCard::-webkit-scrollbar {
     display: none;
 }
-.modalCard .modalHeader {
+.modalCard>.modalHeader {
     margin-top: 25px;
-    width: 100%;
+    max-width: 100%;
     display: flex;
     color: var(--col);
     flex-direction: row;
     justify-content: space-between;
     flex-wrap: nowrap;
+}
+.modalCard>.modalHeader>h2 {
+    max-width: 66%;
+    word-wrap: break-word;
+    text-align: center;
 }
 .nextModal, .prevModal {
     width: 20%;

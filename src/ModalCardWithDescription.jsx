@@ -12,6 +12,17 @@ class ModalCardWithDescription extends Component {
         event.stopPropagation();
         this.props.showDesc(null);
     };
+    escapeClose = event => {
+        if (event.key === "Escape") {
+            this.closeDesc(event);
+        }
+    };
+    componentDidMount() {
+        document.addEventListener('keydown', this.escapeClose);
+    }
+    componentWillUnmount() {
+        document.removeEventListener('keydown', this.escapeClose);
+    }
     render() {
         return (
             <div
