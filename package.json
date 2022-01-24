@@ -20,12 +20,10 @@
     "web-vitals": "^1.0.1"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "client&back": "concurrently \"npm run server\" \"npm run client\"",
+    "start": "serve -s build",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "server": "node server.js",
     "heroku-postbuild": "npm run build"
   },
   "eslintConfig": {
