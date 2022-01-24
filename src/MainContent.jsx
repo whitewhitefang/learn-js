@@ -36,10 +36,12 @@ class MainContent extends Component {
     }
     getAndUnpack = async() => {
         const request = await fetch("http://localhost:5000/js", {
-            method: "GET"
-        });
-        const content = await request.json();
-        this.unpacking(content);
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json"
+            }
+        }).then(result => result.json());
+        this.unpacking(request);
     };
     unpacking = cards => {
         let unpackedCards = [];
