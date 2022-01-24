@@ -255,6 +255,7 @@ a:active {
 .closeSign {
     float: right;
     padding-right: 5px;
+    color: var(--col);
 }
 .closeSign:hover {
     cursor: pointer;
