@@ -35,7 +35,7 @@ class MainContent extends Component {
         return true;
     }
     getAndUnpack = async() => {
-        const request = await fetch("http://localhost:5000/js", {
+        const request = await fetch("https://learnjsapidb.herokuapp.com/js", {
             method: "GET",
             headers: {
                 "Content-Type": "application/json"
@@ -79,7 +79,7 @@ class MainContent extends Component {
         this.setState({editedCard: item});
     };
     deleteCard = async(item) => {
-        let url = `http://localhost:5000/js/`;
+        let url = `https://learnjsapidb.herokuapp.com/js/`;
         if (item.classDeck === "card") {
             let deck = this.state.decks.filter(exactDeck => exactDeck.name === item.deck)[0];
             url += deck.id;
