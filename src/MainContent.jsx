@@ -35,13 +35,14 @@ class MainContent extends Component {
         return true;
     }
     getAndUnpack = async() => {
-        const request = await fetch("https://sage-harsh-gerbera.glitch.me/db/js", {
+        const request = await fetch("https://sage-harsh-gerbera.glitch.me/js", {
             method: "GET",
             headers: {
                 "Content-Type": "application/json"
             }
         }).then(result => result.json());
         this.unpacking(request);
+        console.log(request);
     };
     unpacking = cards => {
         let unpackedCards = [];
@@ -79,7 +80,7 @@ class MainContent extends Component {
         this.setState({editedCard: item});
     };
     deleteCard = async(item) => {
-        let url = `https://sage-harsh-gerbera.glitch.me/db/js`;
+        let url = `https://sage-harsh-gerbera.glitch.me/js`;
         if (item.classDeck === "card") {
             let deck = this.state.decks.filter(exactDeck => exactDeck.name === item.deck)[0];
             url += deck.id;
