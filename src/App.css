@@ -5,8 +5,8 @@
     --col: var(--light-text-and-border);
     --light-text-and-border: black;
     --dark-text-and-border: white;
-    --light-and-dark-always-orange: orange;
-    --warning-color: red;
+    --light-and-dark-always-orange: rgb(255, 165, 0);
+    --warning-color: rgb(255, 0, 0);
 }
 body {
     background-color: var(--back);
@@ -211,6 +211,7 @@ a:active {
     z-index: 1000;
     background-blend-mode: multiply;
     background: rgba(2,3,2,0.1);
+    -webkit-backdrop-filter: blur(2px);
     backdrop-filter: blur(2px);
 }
 .modalCard {
@@ -336,6 +337,7 @@ a:active {
     transform-style: preserve-3d;
     transform: scale(0.1) rotateY(0deg) translate(0, 0);
     perspective: 1000px;
+    -webkit-backface-visibility: hidden;
     backface-visibility: hidden;
 }
 .cardwdcomp-appear-done {
@@ -413,4 +415,9 @@ a:active {
     border-color: var(--warning-color);
     box-shadow: 1.5px 1.5px 1px .4px var(--warning-color);
     text-shadow: .2px .2px .1px var(--warning-color);
+}
+.loader {
+    position: absolute;
+    top: 44%;
+    margin: 0 auto;    
 }

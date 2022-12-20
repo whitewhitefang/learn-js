@@ -6,6 +6,7 @@ import AddNewCard from "./AddNewCard";
 import EditExistingCard from "./EditExistingCard";
 import ConfirmModal from "./ConfirmModal";
 import About from "./About";
+import loader from '../src/imgs/Stopwatch.gif';
 
 class MainContent extends Component {
     constructor(props) {
@@ -19,7 +20,8 @@ class MainContent extends Component {
             openedDeck: false,
             editedCard: {},
             searchedCard: "",
-            deletedCard: {}
+            deletedCard: {},
+            isLoading: false
         };
     }
     componentDidMount() {
@@ -35,6 +37,9 @@ class MainContent extends Component {
         return true;
     }
     getAndUnpack = async() => {
+        this.setState({
+            isLoading: true
+        });
         const request = await fetch("https://sage-harsh-gerbera.glitch.me/js", {
             method: "GET",
             headers: {
@@ -42,7 +47,6 @@ class MainContent extends Component {
             }
         }).then(result => result.json());
         this.unpacking(request);
-        console.log(request);
     };
     unpacking = cards => {
         let unpackedCards = [];
@@ -64,7 +68,8 @@ class MainContent extends Component {
             initDecks: unpackedDecks,
             initCards: unpackedCards,
             decks: unpackedDecks,
-            cards: unpackedCards
+            cards: unpackedCards, 
+            isLoading: false
         });
     };
     showCards = currDeck => {
@@ -138,66 +143,74 @@ class MainContent extends Component {
         }
     }
     render() {
-        return (
+        if (this.state.isLoading === true) {
+            return (
+                <div className='loader'>
+                    <img src={loader} type='image/gif' alt='Wait a second please' title='Wait a second please' />
+                </div>
+            );     
+        }
+        if (this.state.isLoading === false) {
+            return (               
             <div className="mainContentDiv">
-                {this.props.random ? <ModalCard
-                    cards={this.state.cards}
-                    closeModal={this.props.closeModal}
-                /> : ""}
-                {this.props.modalForm ? <AddNewCard
-                    closeModalForm={this.props.closeModalForm}
-                    getAndUnpack={this.getAndUnpack}
-                    decks={this.state.decks}
-                    cards={this.state.cards}
-                /> : ""}
-                {this.props.modalEditCard ? <EditExistingCard
-                    getAndUnpack={this.getAndUnpack}
-                    decks={this.state.decks}
-                    cards={this.state.cards}
-                    editedCard={this.state.editedCard}
-                    modalToEditCard={this.props.modalToEditCard}
-                    deleteCard={this.deleteCard}
-                /> : ""}
-                {this.props.modalConfirm ? <ConfirmModal
-                    text={this.props.confirmText}
-                    closeConfirmModal={this.props.closeConfirmModal}
-                    reallyDelete={this.reallyDelete}
-                /> : ""}
-                {this.props.about ? <About
-                    toAbout={this.props.toAbout}
-                /> : ""}
-                <div className="decks">
-                    {this.state.decks.map(item => {
-                        return (
-                            <Deck
-                                item={item}
-                                key={item.id}
-                                onShowCards={this.showCards}
-                                editMode={this.props.editMode}
-                                editedCard={this.editedCard}
-                                modalToEditCard={this.props.modalToEditCard}
-                                deleteIt={this.deleteIt}
-                                openedDeck={this.state.openedDeck}
-                            />
-                            )
-                    })}
-                </div>
-                <div className="cards">
-                    {this.state.deck ? this.state.deck.map(item => {
-                        return (
-                            <Card
-                                card={item}
-                                key={item.id}
-                                editMode={this.props.editMode}
-                                editedCard={this.editedCard}
-                                modalToEditCard={this.props.modalToEditCard}
-                                deleteIt={this.deleteIt}
-                            />
+            {this.props.random ? <ModalCard
+                cards={this.state.cards}
+                closeModal={this.props.closeModal}
+            /> : ""}
+            {this.props.modalForm ? <AddNewCard
+                closeModalForm={this.props.closeModalForm}
+                getAndUnpack={this.getAndUnpack}
+                decks={this.state.decks}
+                cards={this.state.cards}
+            /> : ""}
+            {this.props.modalEditCard ? <EditExistingCard
+                getAndUnpack={this.getAndUnpack}
+                decks={this.state.decks}
+                cards={this.state.cards}
+                editedCard={this.state.editedCard}
+                modalToEditCard={this.props.modalToEditCard}
+                deleteCard={this.deleteCard}
+            /> : ""}
+            {this.props.modalConfirm ? <ConfirmModal
+                text={this.props.confirmText}
+                closeConfirmModal={this.props.closeConfirmModal}
+                reallyDelete={this.reallyDelete}
+            /> : ""}
+            {this.props.about ? <About
+                toAbout={this.props.toAbout}
+            /> : ""}
+            <div className="decks">
+                {this.state.decks.map(item => {
+                    return (
+                        <Deck
+                            item={item}
+                            key={item.id}
+                            onShowCards={this.showCards}
+                            editMode={this.props.editMode}
+                            editedCard={this.editedCard}
+                            modalToEditCard={this.props.modalToEditCard}
+                            deleteIt={this.deleteIt}
+                            openedDeck={this.state.openedDeck}
+                        />
                         )
-                    }) : ""}
-                </div>
+                })}
             </div>
-        )
+            <div className="cards">
+                {this.state.deck ? this.state.deck.map(item => {
+                    return (
+                        <Card
+                            card={item}
+                            key={item.id}
+                            editMode={this.props.editMode}
+                            editedCard={this.editedCard}
+                            modalToEditCard={this.props.modalToEditCard}
+                            deleteIt={this.deleteIt}
+                        />
+                    )
+                }) : ""}
+            </div>
+            </div>);
+        }
     }
 }
 
